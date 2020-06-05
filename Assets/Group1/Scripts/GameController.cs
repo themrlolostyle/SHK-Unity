@@ -6,31 +6,29 @@ public class GameController : MonoBehaviour
 {
     public static GameController controller;
 
-    public GameObject go;
-    public GameObject a;
-    public GameObject[] B;
+    [SerializeField] private GameObject _foreground;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private Transform[] _enemys;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         controller = this;
     }
 
     public void End()
     {
-        go.SetActive(true);
+        _foreground.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update(){
-        foreach (var b in B)
+    private void Update(){
+        foreach (var enemy in _enemys)
         {
-            if (b == null)
+            if (enemy == null)
                 continue;
 
-                if (Vector3.Distance(a.gameObject.gameObject.GetComponent<Transform>().position, b.gameObject.gameObject.transform.position) < 0.2f)
+                if (Vector3.Distance(_player.gameObject.gameObject.GetComponent<Transform>().position, enemy.transform.position) < 0.2f)
                 {
-                    a.SendMessage("SendMEssage", b);
+                    _player.SendMessage("SendMEssage", enemy);
                 }
 
         }

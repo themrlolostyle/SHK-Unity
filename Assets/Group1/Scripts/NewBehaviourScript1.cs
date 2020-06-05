@@ -6,19 +6,13 @@ public class NewBehaviourScript1 : MonoBehaviour
     public float spEed;
     public bool timer;
     public float time;
-    // Use this for initialization
-
-
-    void Start()
-    {
-    }
-    // Update is called once per frame
-    void Update(){
+   
+    private void Update(){
         if (timer)
         {
             time -= Time.deltaTime;
             if(time < 0)
-   {
+            {
                 timer = false;
                 spEed /= 2;
             }
@@ -45,21 +39,17 @@ public class NewBehaviourScript1 : MonoBehaviour
             transform.Translate(spEed * Time.deltaTime, 0, 0);
     }
 
-    public void SendMEssage(GameObject b)
+    public void SendMEssage(Transform b)
     {
-
-
         if(b.name == "enemy")
         {
             Destroy(b);
-        }if(b.name == "speed")
+        }
+        if(b.name == "speed")
         {
             spEed *= 2;
             timer = true;
             time = 2;
-
-
-
         }
     }
 }
