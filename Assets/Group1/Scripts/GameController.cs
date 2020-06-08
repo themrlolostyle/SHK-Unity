@@ -9,39 +9,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform[] _enemys;
     [SerializeField] private Transform[] _upSpeedPoints;
 
-    private delegate void LOl(); 
+    private delegate void WhatToDoAtCrossing(); 
     private int _enemyDieCount;
    
     private void Update()
     {
-        #region
-        //foreach (var enemy in _enemys)
-        //{
-        //    if (enemy == null)
-        //        continue;
-
-        //    if (DistanceFromPlayer(enemy) < 0.2f)
-        //    {
-        //        _enemyDieCount++;
-        //        enemy.GetComponent<Enemy>().Die();
-        //    }
-        //}
-
-        //foreach (var upSpeed in _upSpeedPoints)
-        //{
-        //    if (upSpeed == null)
-        //        continue;
-
-        //    if (DistanceFromPlayer(upSpeed) < 0.2f)
-        //    {
-        //        Destroy(upSpeed.gameObject);
-        //        _player.GrowthSpeed();
-        //    }
-        //}
-        #endregion
-
-        SearchIntersection(_enemys, EnemyDie);
-        SearchIntersection(_upSpeedPoints, UpSpeed);
+        SearchCrossed(_enemys, EnemyDie);
+        SearchCrossed(_upSpeedPoints, UpSpeed);
 
         if (_enemyDieCount == _enemys.Length)
         {
@@ -49,7 +23,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void SearchIntersection(Transform[] transforms, LOl del)
+    private void SearchCrossed(Transform[] transforms, WhatToDoAtCrossing method)
     {
         foreach (var transform in transforms)
         {
@@ -59,7 +33,7 @@ public class GameController : MonoBehaviour
             if (CrossedWithPlayer(transform) < 0.2f)
             {
                 Destroy(transform.gameObject);
-                del?.Invoke();
+                method?.Invoke();
             }
         }
     }
