@@ -4,33 +4,84 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public static GameController controller;
-
     [SerializeField] private GameObject _foreground;
-    [SerializeField] private GameObject _player;
+    [SerializeField] private Player _player;
     [SerializeField] private Transform[] _enemys;
+    [SerializeField] private Transform[] _upSpeedPoints;
 
-    private void Start()
+    private delegate void LOl(); 
+    private int _enemyDieCount;
+   
+    private void Update()
     {
-        controller = this;
-    }
+        #region
+        //foreach (var enemy in _enemys)
+        //{
+        //    if (enemy == null)
+        //        continue;
 
-    public void End()
-    {
-        _foreground.SetActive(true);
-    }
+        //    if (DistanceFromPlayer(enemy) < 0.2f)
+        //    {
+        //        _enemyDieCount++;
+        //        enemy.GetComponent<Enemy>().Die();
+        //    }
+        //}
 
-    private void Update(){
-        foreach (var enemy in _enemys)
+        //foreach (var upSpeed in _upSpeedPoints)
+        //{
+        //    if (upSpeed == null)
+        //        continue;
+
+        //    if (DistanceFromPlayer(upSpeed) < 0.2f)
+        //    {
+        //        Destroy(upSpeed.gameObject);
+        //        _player.GrowthSpeed();
+        //    }
+        //}
+        #endregion
+
+        SearchIntersection(_enemys, EnemyDie);
+        SearchIntersection(_upSpeedPoints, UpSpeed);
+
+        if (_enemyDieCount == _enemys.Length)
         {
-            if (enemy == null)
+            End();
+        }
+    }
+
+    private void SearchIntersection(Transform[] transforms, LOl del)
+    {
+        foreach (var transform in transforms)
+        {
+            if (transform == null)
                 continue;
 
-                if (Vector3.Distance(_player.gameObject.gameObject.GetComponent<Transform>().position, enemy.transform.position) < 0.2f)
-                {
-                    _player.SendMessage("SendMEssage", enemy);
-                }
-
+            if (CrossedWithPlayer(transform) < 0.2f)
+            {
+                Destroy(transform.gameObject);
+                del?.Invoke();
+            }
         }
+    }
+
+    private void EnemyDie()
+    {
+        _enemyDieCount++;
+    }
+
+    private void UpSpeed()
+    {
+        _player.GrowthSpeed();
+    }
+
+    private void End()
+    {
+        _foreground.SetActive(true);
+        _player.enabled = false;
+    }
+
+    private float CrossedWithPlayer(Transform transform)
+    {
+        return Vector3.Distance(_player.gameObject.GetComponent<Transform>().position, transform.transform.position);
     }
 }
