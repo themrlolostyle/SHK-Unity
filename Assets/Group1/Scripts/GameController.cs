@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour
 {
@@ -9,13 +10,18 @@ public class GameController : MonoBehaviour
     [SerializeField] private Transform[] _enemys;
     [SerializeField] private Transform[] _upSpeedPoints;
 
-    private delegate void WhatToDoAtCrossing(); 
+    private Transform _playerTransform;
     private int _enemyDieCount;
-   
+
+    private void Start()
+    {
+        _playerTransform = _player.GetComponent<Transform>();
+    }
+
     private void Update()
     {
-        SearchCrossed(_enemys, EnemyDie);
-        SearchCrossed(_upSpeedPoints, UpSpeed);
+        CheckOnCrossing(_enemys, EnemyDie);
+        CheckOnCrossing(_upSpeedPoints, UpSpeed);
 
         if (_enemyDieCount == _enemys.Length)
         {
@@ -23,17 +29,17 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void SearchCrossed(Transform[] transforms, WhatToDoAtCrossing method)
+    private void CheckOnCrossing(Transform[] transforms, UnityAction methodWhenCrossing)
     {
         foreach (var transform in transforms)
         {
             if (transform == null)
                 continue;
 
-            if (CrossedWithPlayer(transform) < 0.2f)
+            if (DistanceToPLayer(transform) < 0.2f)
             {
                 Destroy(transform.gameObject);
-                method?.Invoke();
+                methodWhenCrossing?.Invoke();
             }
         }
     }
@@ -54,8 +60,8 @@ public class GameController : MonoBehaviour
         _player.enabled = false;
     }
 
-    private float CrossedWithPlayer(Transform transform)
+    private float DistanceToPLayer(Transform transform)
     {
-        return Vector3.Distance(_player.gameObject.GetComponent<Transform>().position, transform.transform.position);
+        return Vector3.Distance(_playerTransform.position, transform.transform.position);
     }
 }

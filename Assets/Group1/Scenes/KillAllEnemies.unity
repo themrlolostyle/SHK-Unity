@@ -151,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f7df4705b7dae48944a39b48934484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 4
 --- !u!212 &141422278
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -290,7 +291,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144538998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.54, y: 3.83, z: 0}
+  m_LocalPosition: {x: -8.02, y: -1.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -699,6 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f7df4705b7dae48944a39b48934484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 4
 --- !u!212 &1578050039
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -793,6 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f7df4705b7dae48944a39b48934484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 4
 --- !u!212 &1754708963
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -952,8 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _isReductionSpeed: 0
-  _timeToReducation: 10
+  _howLongActivateGrowthSpeed: 2
 --- !u!1 &2083640146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,3 +1050,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65f7df4705b7dae48944a39b48934484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _radius: 4
