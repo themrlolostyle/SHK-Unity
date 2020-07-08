@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _howLongActivateGrowthSpeed: 2
+  _howLongGrowthSpeed: 2
 --- !u!1 &2083640146
 GameObject:
   m_ObjectHideFlags: 0

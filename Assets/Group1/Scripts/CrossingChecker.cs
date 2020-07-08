@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameController : MonoBehaviour
+public class CrossingChecker : MonoBehaviour
 {
     [SerializeField] private GameObject _foreground;
     [SerializeField] private Player _player;
     [SerializeField] private Transform[] _enemys;
     [SerializeField] private Transform[] _upSpeedPoints;
+
+    public event UnityAction EnemiesDied;
 
     private Transform _playerTransform;
     private int _enemyDieCount;
@@ -25,7 +27,7 @@ public class GameController : MonoBehaviour
 
         if (_enemyDieCount == _enemys.Length)
         {
-            End();
+            EnemiesDied?.Invoke();
         }
     }
 
@@ -52,12 +54,6 @@ public class GameController : MonoBehaviour
     private void UpSpeed()
     {
         _player.GrowthSpeed();
-    }
-
-    private void End()
-    {
-        _foreground.SetActive(true);
-        _player.enabled = false;
     }
 
     private float DistanceToPLayer(Transform transform)
