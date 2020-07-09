@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class GameEnder : MonoBehaviour
 {
-    [SerializeField] private CrossingChecker _crossingChecker;
+    [SerializeField] private CollisionDetector _collisionDetector;
     [SerializeField] private GameObject _foreground;
     [SerializeField] private Player _player;
 
     private void OnEnable()
     {
-        _crossingChecker.EnemiesDied += OnEnemiesDied;
+        _collisionDetector.EnemiesDied += OnEnemiesDied;
     }
 
     private void OnDisable()
     {
-        _crossingChecker.EnemiesDied -= OnEnemiesDied;
+        _collisionDetector.EnemiesDied -= OnEnemiesDied;
     }
 
     private void OnEnemiesDied()

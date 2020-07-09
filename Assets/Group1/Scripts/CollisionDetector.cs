@@ -1,19 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class CrossingChecker : MonoBehaviour
+public class CollisionDetector : MonoBehaviour
 {
     [SerializeField] private GameObject _foreground;
     [SerializeField] private Player _player;
-    [SerializeField] private Transform[] _enemys;
-    [SerializeField] private Transform[] _upSpeedPoints;
+    [SerializeField] private List<Transform> _enemies;
+    [SerializeField] private List<Transform> _upSpeedPoints;
 
     public event UnityAction EnemiesDied;
 
     private Transform _playerTransform;
-    private int _enemyDieCount;
 
     private void Start()
     {
@@ -22,33 +22,29 @@ public class CrossingChecker : MonoBehaviour
 
     private void Update()
     {
-        CheckOnCrossing(_enemys, EnemyDie);
+        CheckOnCrossing(_enemies, CheckOnAllEnemiesDie);
         CheckOnCrossing(_upSpeedPoints, UpSpeed);
-
-        if (_enemyDieCount == _enemys.Length)
-        {
-            EnemiesDied?.Invoke();
-        }
     }
 
-    private void CheckOnCrossing(Transform[] transforms, UnityAction methodWhenCrossing)
+    private void CheckOnCrossing(List<Transform> transforms, UnityAction methodWhenCrossing)
     {
-        foreach (var transform in transforms)
+        foreach (var transform in transforms.ToList())
         {
-            if (transform == null)
-                continue;
-
             if (DistanceToPLayer(transform) < 0.2f)
             {
+                transforms.Remove(transform);
                 Destroy(transform.gameObject);
                 methodWhenCrossing?.Invoke();
             }
         }
     }
 
-    private void EnemyDie()
+    private void CheckOnAllEnemiesDie()
     {
-        _enemyDieCount++;
+        if (_enemies.Count <= 0)
+        {
+            EnemiesDied?.Invoke();
+        }
     }
 
     private void UpSpeed()

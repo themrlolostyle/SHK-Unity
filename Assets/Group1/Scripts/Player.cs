@@ -21,32 +21,26 @@ public class Player : MonoBehaviour
     {
         ReductionSpeed();
 
-        float xAxis = Input.GetAxis("Horizontal");
-        float yAxis = Input.GetAxis("Vertical");
-
-        Vector3 pos = transform.position;
-        pos.x += xAxis * _speed * Time.deltaTime;
-        pos.y += yAxis * _speed * Time.deltaTime;
-        transform.position = pos;
+        transform.position += new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * _speed * Time.deltaTime;
     }
 
     private void ReductionSpeed()
     {
-        if (_isReductionSpeed == true)
+        _timeToReducation -= Time.deltaTime;
+        if (_timeToReducation < 0)
         {
-            _timeToReducation -= Time.deltaTime;
-            if (_timeToReducation < 0)
-            {
-                _isReductionSpeed = false;
-                _speed = _defaultSpeed;
-            }
+            _isReductionSpeed = false;
+            _speed = _defaultSpeed;
         }
     }
 
     public void GrowthSpeed()
     {
-        _speed = _maxSpeed;
-        _isReductionSpeed = true;
-        _timeToReducation = 2;
+        if (_isReductionSpeed == false)
+        {
+            _speed = _maxSpeed;
+            _isReductionSpeed = true;
+            _timeToReducation = 2;
+        }
     }
 }

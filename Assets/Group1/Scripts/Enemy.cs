@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        SetTarget();
+        NextTarget();
     }
 
     private void Update()
@@ -19,11 +19,11 @@ public class Enemy : MonoBehaviour
 
         if (transform.position == _target)
         {
-            SetTarget();
+            NextTarget();
         }
     }
 
-    private void SetTarget()
+    private void NextTarget()
     {
         _target = Random.insideUnitCircle * _radius;
     }
