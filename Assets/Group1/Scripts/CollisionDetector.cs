@@ -8,9 +8,10 @@ public class CollisionDetector : MonoBehaviour
 {
     [SerializeField] private GameObject _foreground;
     [SerializeField] private Player _player;
+    [SerializeField] private float collisionRadius = 0.2f;
     [SerializeField] private List<Transform> _enemies;
     [SerializeField] private List<Transform> _upSpeedPoints;
-
+    
     public event UnityAction EnemiesDied;
 
     private Transform _playerTransform;
@@ -26,15 +27,15 @@ public class CollisionDetector : MonoBehaviour
         CheckOnCrossing(_upSpeedPoints, UpSpeed);
     }
 
-    private void CheckOnCrossing(List<Transform> transforms, UnityAction methodWhenCrossing)
+    private void CheckOnCrossing(List<Transform> transforms, UnityAction onCrossing)
     {
-        foreach (var transform in transforms.ToList())
+        foreach (var transform in transforms)
         {
-            if (DistanceToPLayer(transform) < 0.2f)
+            if (Vector3.Distance(_playerTransform.position, transform.transform.position) < collisionRadius)
             {
                 transforms.Remove(transform);
                 Destroy(transform.gameObject);
-                methodWhenCrossing?.Invoke();
+                onCrossing?.Invoke();
             }
         }
     }
@@ -50,10 +51,5 @@ public class CollisionDetector : MonoBehaviour
     private void UpSpeed()
     {
         _player.GrowthSpeed();
-    }
-
-    private float DistanceToPLayer(Transform transform)
-    {
-        return Vector3.Distance(_playerTransform.position, transform.transform.position);
     }
 }

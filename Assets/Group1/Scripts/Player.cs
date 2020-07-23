@@ -6,14 +6,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _howLongGrowthSpeed;
 
-    private bool _isReductionSpeed;
     private float _timeToReducation;
-    private float _maxSpeed;
     private float _defaultSpeed;
+    private int _growthBonusCount;
 
     private void Start()
     {
-        _maxSpeed = _speed * 2;
         _defaultSpeed = _speed;
     }
 
@@ -27,20 +25,30 @@ public class Player : MonoBehaviour
     private void ReductionSpeed()
     {
         _timeToReducation -= Time.deltaTime;
+
         if (_timeToReducation < 0)
         {
-            _isReductionSpeed = false;
-            _speed = _defaultSpeed;
+            if (_growthBonusCount > 0)
+            {
+                _growthBonusCount--;
+                NewSpeed();
+            }
+            else
+            {
+                _speed = _defaultSpeed;
+            }
         }
     }
 
     public void GrowthSpeed()
     {
-        if (_isReductionSpeed == false)
-        {
-            _speed = _maxSpeed;
-            _isReductionSpeed = true;
-            _timeToReducation = 2;
-        }
+        _growthBonusCount++;
+        NewSpeed();
+    }
+
+    private void NewSpeed()
+    {
+        _speed = _defaultSpeed * (1 + _growthBonusCount);
+        _timeToReducation = 2;
     }
 }
